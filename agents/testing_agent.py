@@ -10,7 +10,7 @@ class TestCaseAgent:
         if "calculate_bmi" in code:
             return (
                 "import unittest\n\n"
-                "from generated_code import calculate_bmi\n\n"
+                "from generated.code.generated_code import calculate_bmi\n\n"
                 "class TestBMI(unittest.TestCase):\n"
                 "    def test_positive(self):\n"
                 "        self.assertAlmostEqual(calculate_bmi(70, 175), 22.86, places=2)\n\n"
