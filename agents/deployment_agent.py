@@ -1,3 +1,10 @@
+"""Agent for generating deployment scripts."""
+
+
 class DeploymentAgent:
-    def run(self):
-        return '#!/bin/bash\necho Deploying...'
+    """Produce a simple bash script to run the project."""
+
+    def run(self) -> str:
+        """Return a bash script string."""
+
+        return "#!/bin/bash\npython main.py"
