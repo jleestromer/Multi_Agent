@@ -13,9 +13,9 @@ from core.utils import write_file
 class Orchestrator:
     """Coordinates the multi-agent workflow."""
 
-    def __init__(self) -> None:
+    def __init__(self, llm=None) -> None:
         self.requirement_agent = RequirementAnalysisAgent()
-        self.coding_agent = CodingAgent()
+        self.coding_agent = CodingAgent(llm)
         self.review_agent = CodeReviewAgent()
         self.documentation_agent = DocumentationAgent()
         self.testing_agent = TestCaseAgent()
@@ -23,16 +23,23 @@ class Orchestrator:
         self.ui_agent = StreamlitUIAgent()
 
     def run(self, user_input: str) -> dict:
-        """Execute the agents sequentially until review passes."""
+        """Execute the agents sequentially until the review agent approves.
+
+        If the review fails, feedback is sent back to the coding agent and the
+        generation process is repeated with the additional context.
+        """
 
         requirements = self.requirement_agent.run(user_input)
 
+        # Iterate until the review agent approves the generated code
+        attempts = 0
         while True:
+            attempts += 1
             code = self.coding_agent.run(requirements)
             review = self.review_agent.run(code)
             if review["approved"]:
                 break
-            # In a real system, feedback would influence regeneration
+            # Feedback is fed back into the requirements for another iteration
             requirements["feedback"] = review["issues"]
 
         documentation = self.documentation_agent.run(code)
@@ -54,4 +61,5 @@ class Orchestrator:
             "tests": tests,
             "deploy_script": deploy_script,
             "ui": ui,
+            "attempts": attempts,
         }

@@ -30,6 +30,7 @@ class AgentTests(unittest.TestCase):
     def test_deployment_agent(self):
         script = DeploymentAgent().run()
         self.assertTrue(script.startswith("#!/bin/bash"))
+        self.assertIn("pip install -r requirements.txt", script)
 
     def test_ui_agent(self):
         ui = StreamlitUIAgent().run()
