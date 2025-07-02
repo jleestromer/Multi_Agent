@@ -7,6 +7,7 @@ from agents.documentation_agent import DocumentationAgent
 from agents.testing_agent import TestCaseAgent
 from agents.deployment_agent import DeploymentAgent
 from agents.ui_agent import StreamlitUIAgent
+from core.utils import write_file
 
 
 class Orchestrator:
@@ -38,6 +39,13 @@ class Orchestrator:
         tests = self.testing_agent.run(code)
         deploy_script = self.deployment_agent.run()
         ui = self.ui_agent.run()
+
+        # Write artifacts to disk
+        write_file("generated/code/generated_code.py", code)
+        write_file("generated/tests/test_generated.py", tests)
+        write_file("generated/docs/documentation.md", documentation)
+        write_file("generated/deployment/deploy.sh", deploy_script)
+        write_file("generated/code/ui.py", ui)
 
         return {
             "requirements": requirements,

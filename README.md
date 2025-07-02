@@ -25,3 +25,8 @@ Launch the Streamlit interface:
 ```bash
 streamlit run streamlit_app/app.py
 ```
+
+Generated artifacts will be saved in the `generated/` directory after running
+the orchestrator. To enable LLM-powered code generation, set the environment
+variable `OPENAI_API_KEY` with your OpenAI credentials. Without the key, the
+system falls back to deterministic example output useful for testing.
