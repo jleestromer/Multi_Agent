@@ -6,6 +6,7 @@ from agents.review_agent import CodeReviewAgent
 from agents.testing_agent import TestCaseAgent
 from agents.deployment_agent import DeploymentAgent
 from agents.ui_agent import StreamlitUIAgent
+from core.llm import LLMClient
 
 
 class AgentTests(unittest.TestCase):
@@ -33,6 +34,11 @@ class AgentTests(unittest.TestCase):
     def test_ui_agent(self):
         ui = StreamlitUIAgent().run()
         self.assertIn("streamlit", ui)
+
+    def test_llm_fallback(self):
+        llm = LLMClient()
+        output = llm.generate("Write a BMI calculator")
+        self.assertIn("calculate_bmi", output)
 
 
 if __name__ == "__main__":
