@@ -1,6 +1,6 @@
 import unittest
 
-from generated_code import calculate_bmi
+from generated.code.generated_code import calculate_bmi
 
 class TestBMI(unittest.TestCase):
     def test_positive(self):
